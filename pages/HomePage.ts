@@ -1,4 +1,5 @@
-import { MonitorsList } from "../helpers/InventoryList";
+import { expect, Locator } from "@playwright/test";
+import { PhonesList, LaptopsList, MonitorsList } from "../helpers/InventoryList";
 import { BasePage } from "./BasePage";
 
 export class HomePage extends BasePage {
@@ -15,11 +16,36 @@ export class HomePage extends BasePage {
     private closeButton = this.page.getByRole('button', { name: 'Close' }).nth(1);
     private addToCartButton = this.page.locator('a.btn.btn-success.btn-lg');
     
+
+    private productsByCategory = {
+        'Phones': Object.values(PhonesList),
+        'Laptops': Object.values(LaptopsList),
+        'Monitors': Object.values(MonitorsList)
+    };
+
     public async selectItem(itemName: string) {
         await this.clickElement(this.page.getByText(itemName)); 
         await this.clickElement(this.addToCartButton); 
     }
 
+    public async validateCategory(category: "Phones" | "Laptops" | "Monitors") {
+        await this.clickCategory(category);
+        const expectedProducts = this.productsByCategory[category];
+        await this.page.waitForSelector('h4.card-title a');
+        const productNames = await this.page.locator('h4.card-title a').allTextContents();
+        
+        console.log(`Validating category: ${category}`);
+        console.log("Found product names:", productNames); 
+        
+        for (const expectedProduct of expectedProducts) {
+            if (productNames.includes(expectedProduct)) {
+                console.log(`Product "${expectedProduct}" found in category "${category}".`);
+            } else {
+                console.log(`Product "${expectedProduct}" NOT found in category "${category}".`);
+            }
+        }
+    }
+    
     public async clickCategory(category: "Phones" | "Laptops" | "Monitors") {
         switch (category) {
             case "Phones":
