@@ -10,7 +10,7 @@ export abstract class BasePage {
     }
 
     protected async clickElement(element: Locator) {
-        await element.click({timeout: 10000});
+        await element.click();
     }   
 
     protected async fillText(element: Locator, text: string) {

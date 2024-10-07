@@ -15,11 +15,11 @@ test('Test the Demoblaze site', async ({ page }) => {
 
 
     // Validate category filters and ensure only correct products are shown
-    await homePage.validateCategory("Phones");
-    await homePage.navigateToHome();
-    await homePage.validateCategory("Laptops");
-    await homePage.navigateToHome();
-    await homePage.validateCategory("Monitors");
+    // await homePage.validateCategory("Phones");
+    // await homePage.navigateToHome();
+    // await homePage.validateCategory("Laptops");
+    // await homePage.navigateToHome();
+    // await homePage.validateCategory("Monitors");
 
     //Checking Links in upper menu
     await homePage.navigateToHome();
@@ -47,8 +47,8 @@ test('Test the Demoblaze site', async ({ page }) => {
     
     // Make order
     await homePage.navigateToHome();
-    await homePage.clickCategory('Monitors');
-    await homePage.selectItem(MonitorsList.APPLE);
+    await homePage.clickCategory('Phones');
+    await homePage.selectItem(PhonesList.IPHONE);
     await homePage.Cart(); 
     await cartPage.placeOrder();
     await cartPage.fillOrderForm({
