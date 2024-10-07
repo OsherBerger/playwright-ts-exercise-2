@@ -14,10 +14,10 @@ export  class MessagePage extends BasePage {
         this.messageTextField = this.page.locator('[id="message-text"]');
     }
 
-    public async fillInformation(contactEmail: string, contactName: string, message: string) {
-        await this.fillText(this.contactEmailTextField, contactEmail);
-        await this.fillText(this.contantNameTextField, contactName);
-        await this.fillText(this.messageTextField, message);
+    public async fillInformation(details:{contactEmail: string, contactName: string, message: string}) {
+        await this.fillText(this.contactEmailTextField, details.contactEmail);
+        await this.fillText(this.contantNameTextField, details.contactName);
+        await this.fillText(this.messageTextField, details.message);
     }
 
     public async sendMessage(){

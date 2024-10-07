@@ -7,12 +7,13 @@ export class CartPage extends BasePage {
     
     // Form fields
     private totalField = this.page.getByLabel('Total:');
-    private nameField = this.page.getByLabel('Name:');
-    private countryField = this.page.getByLabel('Country:');
-    private cityField = this.page.getByLabel('City:');
-    private creditCardField = this.page.getByLabel('Credit card:');
-    private monthField = this.page.getByLabel('Month:');
-    private yearField = this.page.getByLabel('Year:');
+    private nameField = this.page.locator('input#name.form-control'); // Updated locator for the name field
+    private countryField = this.page.locator('input#country.form-control'); // Update ID or use a more specific selector
+    private cityField = this.page.locator('input#city.form-control'); // Update ID or use a more specific selector
+    private creditCardField = this.page.locator('input#card.form-control'); // Update ID or use a more specific selector
+    private monthField = this.page.locator('input#month.form-control'); // Update ID or use a more specific selector
+    private yearField = this.page.locator('input#year.form-control'); // Update ID or use a more specific selector
+
 
     public async fillOrderForm(details: {name: string,  country: string, city: string, creditCard: string, month: string, year: string }) {
         await this.fillText(this.nameField, details.name);

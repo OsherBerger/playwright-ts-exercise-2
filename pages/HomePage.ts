@@ -13,6 +13,17 @@ export class HomePage extends BasePage {
     private signUpLink = this.page.getByRole('link', { name: 'Sign up' });
     private closeButton = this.page.getByRole('button', { name: 'Close' }).nth(1);
 
+    // New locators for monitor item and add to cart button
+    private firstMonitorItem = this.page.getByText('Apple monitor 24'); 
+    private addToCartButton = this.page.getByRole('button', { name: 'Add to cart' });
+    
+    // New method to select a monitor and add to the cart
+    public async selectMonitor() {
+        await this.clickElement(this.firstMonitorItem); 
+        await this.page.goto('https://demoblaze.com/prod.html?idp_=10#');
+        // await this.clickElement(this.addToCartButton); 
+    }
+
     // Interact with categories
     public async clickCategory(category: "Phones" | "Laptops" | "Monitors") {
         switch (category) {
@@ -37,7 +48,6 @@ export class HomePage extends BasePage {
         await this.clickElement(this.contactLink);
     }
 
-    
     public async AboutUs() {
         await this.clickElement(this.aboutUsLink);
     }
@@ -56,4 +66,6 @@ export class HomePage extends BasePage {
     public async closeModal() {
         await this.clickElement(this.closeButton);
     }
+
+
 }
