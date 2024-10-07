@@ -41,7 +41,6 @@ test('Test the Demoblaze site', async ({ page }) => {
     await homePage.navigateToHome();
     await homePage.clickCategory('Monitors');
     await homePage.selectMonitor();
-    await homePage.handleDialog('accept');
     await homePage.Cart(); 
     await cartPage.placeOrder();
     await cartPage.fillOrderForm({
