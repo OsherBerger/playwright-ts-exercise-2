@@ -1,3 +1,4 @@
+import { MonitorsList } from "../helpers/InventoryList";
 import { BasePage } from "./BasePage";
 
 export class HomePage extends BasePage {
@@ -8,23 +9,17 @@ export class HomePage extends BasePage {
     private homeLink = this.page.getByRole('link', { name: 'Home (current)' });
     private contactLink = this.page.getByRole('link', { name: 'Contact' });
     private aboutUsLink = this.page.getByRole('link', { name: 'About us' });
-    private cartLink = this.page.getByRole('link', { name: 'Cart' });
+    private cartLink = this.page.getByRole('link', { name: 'Cart', exact: true });
     private loginLink = this.page.getByRole('link', { name: 'Log in' });
     private signUpLink = this.page.getByRole('link', { name: 'Sign up' });
     private closeButton = this.page.getByRole('button', { name: 'Close' }).nth(1);
-
-    // New locators for monitor item and add to cart button
-    private firstMonitorItem = this.page.getByText('Apple monitor 24'); 
-    private addToCartButton = this.page.getByRole('button', { name: 'Add to cart' });
+    private addToCartButton = this.page.locator('a.btn.btn-success.btn-lg');
     
-    // New method to select a monitor and add to the cart
-    public async selectMonitor() {
-        await this.clickElement(this.firstMonitorItem); 
-        await this.page.goto('https://demoblaze.com/prod.html?idp_=10#');
-        // await this.clickElement(this.addToCartButton); 
+    public async selectItem(itemName: string) {
+        await this.clickElement(this.page.getByText(itemName)); 
+        await this.clickElement(this.addToCartButton); 
     }
 
-    // Interact with categories
     public async clickCategory(category: "Phones" | "Laptops" | "Monitors") {
         switch (category) {
             case "Phones":

@@ -6,7 +6,7 @@ export class CartPage extends BasePage {
     private okButton = this.page.getByRole('button', { name: 'OK' });
     
     // Form fields
-    private totalField = this.page.getByLabel('Total:');
+    // private totalField = this.page.getByLabel('Total:');
     private nameField = this.page.locator('input#name.form-control'); // Updated locator for the name field
     private countryField = this.page.locator('input#country.form-control'); // Update ID or use a more specific selector
     private cityField = this.page.locator('input#city.form-control'); // Update ID or use a more specific selector

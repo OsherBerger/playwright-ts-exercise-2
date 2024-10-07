@@ -2,6 +2,7 @@ import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { CartPage } from '../pages/CartPage';
 import { MessagePage } from '../pages/MessagePage';
+import { MonitorsList } from '../helpers/InventoryList';
 
 test('Test the Demoblaze site', async ({ page }) => {
     const homePage = new HomePage(page);
@@ -40,7 +41,7 @@ test('Test the Demoblaze site', async ({ page }) => {
     // Make order
     await homePage.navigateToHome();
     await homePage.clickCategory('Monitors');
-    await homePage.selectMonitor();
+    await homePage.selectItem(MonitorsList.APPLE);
     await homePage.Cart(); 
     await cartPage.placeOrder();
     await cartPage.fillOrderForm({
