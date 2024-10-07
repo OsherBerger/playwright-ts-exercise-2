@@ -2,7 +2,6 @@ import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { CartPage } from '../pages/CartPage';
 import { MessagePage } from '../pages/MessagePage';
-import { PhonesList, LaptopsList, MonitorsList } from '../helpers/InventoryList';
 
 test('Test the Demoblaze site', async ({ page }) => {
     const homePage = new HomePage(page);
@@ -12,12 +11,14 @@ test('Test the Demoblaze site', async ({ page }) => {
     await page.goto('https://demoblaze.com/');
 
     // Validate category filters and ensure only correct products are shown
-    await homePage.validateCategory('Phones');
-    await homePage.validateCategory('Laptops');
-    await homePage.validateCategory('Monitors');
+    await homePage.validateCategory("Phones");
+    await homePage.navigateToHome();
+    await homePage.validateCategory("Laptops");
+    await homePage.navigateToHome();
+    await homePage.validateCategory("Monitors");
 
     // //Checking Links in upper menu
-    // await homePage.navigateToHome();
+    await homePage.navigateToHome();
     // await homePage.ContactForm();
     // await homePage.closeModal();
     // await homePage.AboutUs();
