@@ -1,14 +1,18 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect, test } from "@playwright/test";
 
 export abstract class BasePage {
     constructor(protected page: Page) {}
 
-    // Click an element
+    public async validatePageUrl(url: string) {
+        await test.step(`Validating that a correct value of URL is${url}`, async () => {
+            await expect(this.page).toHaveURL(url)
+        })
+    }
+
     protected async clickElement(element: Locator) {
-        await element.click();
+        await element.click({timeout: 10000});
     }   
 
-    // Fill text in an input field
     protected async fillText(element: Locator, text: string) {
         await element.fill(text);
     }

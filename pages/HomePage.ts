@@ -1,6 +1,7 @@
 import { expect, Locator } from "@playwright/test";
 import { PhonesList, LaptopsList, MonitorsList } from "../helpers/InventoryList";
 import { BasePage } from "./BasePage";
+import ApplicationURL from "../helpers/ApplicationURL";
 
 export class HomePage extends BasePage {
     // Locators for homepage elements
@@ -74,7 +75,7 @@ export class HomePage extends BasePage {
     }
     
     public async Cart() {
-        await this.clickElement(this.cartLink);
+        await this.page.goto(ApplicationURL.CART_URL);
     }
     public async Login() {
         await this.clickElement(this.loginLink);
@@ -87,6 +88,4 @@ export class HomePage extends BasePage {
     public async closeModal() {
         await this.clickElement(this.closeButton);
     }
-
-
 }
