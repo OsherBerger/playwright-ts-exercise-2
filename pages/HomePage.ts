@@ -114,6 +114,7 @@ export class HomePage extends BasePage {
         await this.fillText(this.contactEmailTextField, details.contactEmail);
         await this.fillText(this.contactNameTextField, details.contactName);
         await this.fillText(this.messageTextField, details.message);
+        await this.validateEmailInput(details.contactEmail)
     }
 
     public async sendMessage() {
@@ -131,6 +132,13 @@ export class HomePage extends BasePage {
         });
         await this.page.getByLabel("New message").getByText("Send message").click();
         await this.page.waitForSelector(".modal-open", { state: "hidden" });
+    }
+    
+    public async validateEmailInput(contactEmail: string) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const isValidEmail = emailPattern.test(contactEmail);
+        expect(isValidEmail).toBe(true);
+        console.log(`Entered email: ${contactEmail}, Is valid: ${isValidEmail}`);
     }
     
 }
