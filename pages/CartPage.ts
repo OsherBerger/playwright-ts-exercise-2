@@ -25,15 +25,6 @@ export class CartPage extends BasePage {
         await this.fillText(this.yearField, details.year);
     }
 
-    public async placeOrder() {
-        await this.clickElement(this.placeOrderButton);
-    }
-
-    public async confirmPurchase() {
-        await this.clickElement(this.purchaseButton);
-        await this.clickElement(this.okButton);
-    }
-
     public async validateOrder() {
         // Extract the list of products from the cart
         const cartItems = await this.page.locator('.card-title a').allTextContents(); // Update the locator as needed
@@ -53,5 +44,39 @@ export class CartPage extends BasePage {
     
         console.log("All products in the cart are correct.");
     }
+
+    public async placeOrder() {
+        await this.clickElement(this.placeOrderButton);
+    }
+
+    public async confirmPurchase() {
+        await this.clickElement(this.purchaseButton);
+    }
+
+    public async ValidatePurchase() {
+        await this.clickElement(this.okButton);
+    }
+
+    public async validateOrderDetails(expectedDetails: { name: string, country: string, city: string, creditCard: string, month: string, year: string }) {
+        // Extract the order details from the modal
+        const orderDetailsModal = await this.page.locator('.sweet-alert .lead.text-muted').innerText();
+        
+        // Define regex patterns to extract the values from the modal
+        const namePattern = /Name:\s*([^\n]+)/;
+        const cardNumberPattern = /Card Number:\s*([^\n]+)/;
     
+        // Extract the name and card number from the modal details
+        const extractedName = orderDetailsModal.match(namePattern)?.[1];
+        const extractedCardNumber = orderDetailsModal.match(cardNumberPattern)?.[1];
+    
+        // Validate that the extracted details match the expected details
+        expect(extractedName).toBe(expectedDetails.name);
+        expect(extractedCardNumber).toBe(expectedDetails.creditCard);
+    
+        console.log("Order details are correct:");
+        console.log(`Name: ${extractedName}, Expected: ${expectedDetails.name}`);
+        console.log(`Card Number: ${extractedCardNumber}, Expected: ${expectedDetails.creditCard}`);
+    }
+    
+
 }

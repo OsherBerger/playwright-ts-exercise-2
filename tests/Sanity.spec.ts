@@ -76,10 +76,11 @@ test('Test the Demoblaze site', async ({ page }) => {
     await homePage.AddAndAlert('Product added');
 
     await homePage.Cart(); 
+    await homePage.validatePageUrl(ApplicationURL.CART_URL);
     // await cartPage.validateOrder();
     await cartPage.placeOrder();
     await homePage.validateTitle(ModalTitles.PLACE_ORDER_MODAL);
-    await cartPage.fillOrderForm({
+    const orderDetails = await cartPage.fillOrderForm({
         name: 'Osher Berger',
         country: 'ISRAEL',
         city: 'TIRAT YEHUDA',
@@ -87,5 +88,8 @@ test('Test the Demoblaze site', async ({ page }) => {
         month: '10',
         year: '2024',
     });
+    // await cartPage.validateOrderDetails(orderDetails);
+
     await cartPage.confirmPurchase();
+    await cartPage.ValidatePurchase();
 });
