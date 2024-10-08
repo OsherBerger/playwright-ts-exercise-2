@@ -49,21 +49,22 @@ test('Test the Demoblaze site', async ({ page }) => {
 
 
     // //Sending a message
-    await homePage.ContactForm();
-    await homePage.validateTitle(ModalTitles.CONTACT_MODAL);
-    await homePage.fillInformation({
-        contactEmail:'osherberger@gmail.com',
-        contactName: 'Osher Berger',
-        message: 'Hello World'
-    });
-    await homePage.messageAndAlert('Thanks for the message!!');
+    // await homePage.ContactForm();
+    // await homePage.validateTitle(ModalTitles.CONTACT_MODAL);
+    // await homePage.fillInformation({
+    //     contactEmail:'osherberger@gmail.com',
+    //     contactName: 'Osher Berger',
+    //     message: 'Hello World'
+    // });
+    // await homePage.messageAndAlert('Thanks for the message!!');
     
 
-    // // Make order
+    // Make order
     // await homePage.navigateToHome();
-    // await homePage.clickCategory('Phones');
-    // await homePage.selectItem(PhonesList.IPHONE);
-    // await homePage.Cart(); 
+    await homePage.clickCategory('Phones');
+    await homePage.ItemAndAlert(PhonesList.IPHONE, 'Product added');
+    await homePage.Cart(); 
+    await cartPage.validateOrder();
     // await cartPage.placeOrder();
     // await cartPage.fillOrderForm({
     //     name: 'Osher Berger',

@@ -32,4 +32,8 @@ export class CartPage extends BasePage {
         await this.clickElement(this.purchaseButton);
         await this.clickElement(this.okButton);
     }
+
+    public async validateOrder(){
+        
+    }
 }

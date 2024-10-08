@@ -44,10 +44,6 @@ export class HomePage extends BasePage {
     };
 
 
-    public async selectItem(itemName: string) {
-        await this.clickElement(this.page.getByText(itemName)); 
-        await this.clickElement(this.addToCartButton); 
-    }
 
     public async validateCategory(category: "Phones" | "Laptops" | "Monitors") {
         await this.clickCategory(category);
@@ -82,7 +78,6 @@ export class HomePage extends BasePage {
         }
     }
 
-
     public async navigateToHome() {
         await this.clickElement(this.homeLink);
     }
@@ -98,6 +93,7 @@ export class HomePage extends BasePage {
     public async Cart() {
         await this.clickElement(this.cartLink);
     }
+
     public async Login() {
         await this.clickElement(this.logInLink);
     }
@@ -117,11 +113,13 @@ export class HomePage extends BasePage {
         await this.validateEmailInput(details.contactEmail)
     }
 
-    public async sendMessage() {
-        const sendMessageButton = this.page.getByRole('button', { name: 'Send message' });
-        await sendMessageButton.click();
+    public async validateEmailInput(contactEmail: string) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const isValidEmail = emailPattern.test(contactEmail);
+        expect(isValidEmail).toBe(true);
+        console.log(`Entered email: ${contactEmail}, Is valid: ${isValidEmail}`);
     }
-
+    
     public async messageAndAlert(dialogMessage: string) {
         this.page.on("dialog", async (dialog) => {
             const actualMessage = dialog.message();
@@ -130,15 +128,43 @@ export class HomePage extends BasePage {
             expect(actualMessage).toBe(dialogMessage);
             await dialog.accept();
         });
-        await this.page.getByLabel("New message").getByText("Send message").click();
+        await this.clickElement(this.page.getByLabel("New message").getByText("Send message"));
         await this.page.waitForSelector(".modal-open", { state: "hidden" });
     }
+
+    // public async ItemAndAlert(itemName: string, dialogMessage: string) {
+    //     await this.clickElement(this.page.getByText(itemName)); 
+    //     this.page.on("dialog", async (dialog) => {
+    //         const actualMessage = dialog.message();
+    //         console.log("Expected dialog message:", dialogMessage);
+    //         console.log("Received dialog message:", actualMessage);
+    //         expect(actualMessage).toBe(dialogMessage);
+    //         await dialog.accept();
+    //     });
+    //     await this.clickElement(this.addToCartButton);
+    //     await this.page.waitForSelector(".modal-open", { state: "hidden" });
+    // }
+
+    public async ItemAndAlert(itemName: string, dialogMessage: string) {
+        await this.clickElement(this.page.getByText(itemName)); 
+        
+        // Listen for dialog
+        this.page.on("dialog", async (dialog) => {
+            const actualMessage = dialog.message();
+            console.log("Expected dialog message:", dialogMessage);
+            console.log("Received dialog message:", actualMessage);
+            expect(actualMessage).toBe(dialogMessage);
+            await dialog.accept();
+        });
     
-    public async validateEmailInput(contactEmail: string) {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValidEmail = emailPattern.test(contactEmail);
-        expect(isValidEmail).toBe(true);
-        console.log(`Entered email: ${contactEmail}, Is valid: ${isValidEmail}`);
+        // Click "Add to Cart" and ensure it's the right button
+        await this.clickElement(this.addToCartButton);
+    
+        // Adding a short wait time to ensure the dialog has time to appear
+        await this.page.waitForTimeout(400);
+    
+        // Wait for modal to close
+        await this.page.waitForSelector(".modal-open", { state: "hidden" });
     }
     
 }
