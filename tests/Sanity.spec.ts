@@ -78,6 +78,7 @@ test('Test the Demoblaze site', async ({ page }) => {
     await homePage.Cart(); 
     // await cartPage.validateOrder();
     await cartPage.placeOrder();
+    await homePage.validateTitle(ModalTitles.PLACE_ORDER_MODAL);
     await cartPage.fillOrderForm({
         name: 'Osher Berger',
         country: 'ISRAEL',
