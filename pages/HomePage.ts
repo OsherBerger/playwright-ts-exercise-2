@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { PhonesList, LaptopsList, MonitorsList } from "../helpers/InventoryList";
 import { BasePage } from "./BasePage";
 
@@ -121,8 +121,16 @@ export class HomePage extends BasePage {
         await sendMessageButton.click();
     }
 
-    public async validateAlert() {
-
+    public async messageAndAlert(dialogMessage: string) {
+        this.page.on("dialog", async (dialog) => {
+            const actualMessage = dialog.message();
+            console.log("Expected dialog message:", dialogMessage);
+            console.log("Received dialog message:", actualMessage);
+            expect(actualMessage).toBe(dialogMessage);
+            await dialog.accept();
+        });
+        await this.page.getByLabel("New message").getByText("Send message").click();
+        await this.page.waitForSelector(".modal-open", { state: "hidden" });
     }
-
+    
 }
