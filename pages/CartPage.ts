@@ -1,3 +1,4 @@
+import { expect } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class CartPage extends BasePage {
@@ -33,7 +34,24 @@ export class CartPage extends BasePage {
         await this.clickElement(this.okButton);
     }
 
-    public async validateOrder(){
-        
+    public async validateOrder() {
+        // Extract the list of products from the cart
+        const cartItems = await this.page.locator('.card-title a').allTextContents(); // Update the locator as needed
+    
+        // Extract the expected products from the previous steps
+        const expectedProducts = await this.page.locator('.modal-body').innerText(); // Modify this to capture the product names added to the cart
+        const productNames = expectedProducts.split('\n'); // Split the text to get product names
+    
+        // Log the results for debugging
+        console.log(`Cart items: ${cartItems}`);
+        console.log(`Expected products: ${productNames}`);
+    
+        // Validate that each expected product is in the cart
+        for (const expectedProduct of productNames) {
+            expect(cartItems).toContain(`Expected product "${expectedProduct}" is found in the cart.`);
+        }
+    
+        console.log("All products in the cart are correct.");
     }
+    
 }
