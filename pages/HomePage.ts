@@ -1,28 +1,48 @@
-import { expect, Locator } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { PhonesList, LaptopsList, MonitorsList } from "../helpers/InventoryList";
 import { BasePage } from "./BasePage";
-import ApplicationURL from "../helpers/ApplicationURL";
 
 export class HomePage extends BasePage {
-    // Locators for homepage elements
-    private phonesCategory = this.page.getByRole('link', { name: 'Phones' });
-    private laptopsCategory = this.page.getByRole('link', { name: 'Laptops' });
-    private monitorsCategory = this.page.getByRole('link', { name: 'Monitors' });
-    private homeLink = this.page.getByRole('link', { name: 'Home (current)' });
-    private contactLink = this.page.getByRole('link', { name: 'Contact' });
-    private aboutUsLink = this.page.getByRole('link', { name: 'About us' });
-    private cartLink = this.page.getByRole('link', { name: 'Cart', exact: true });
-    private loginLink = this.page.getByRole('link', { name: 'Log in' });
-    private signUpLink = this.page.getByRole('link', { name: 'Sign up' });
-    private closeButton = this.page.getByRole('button', { name: 'Close' }).nth(1);
-    private addToCartButton = this.page.locator('a.btn.btn-success.btn-lg');
-    
 
+    private contactEmailTextField: Locator;
+    private contactNameTextField: Locator;
+    private messageTextField: Locator;
+    private phonesCategory: Locator;
+    private laptopsCategory: Locator;
+    private monitorsCategory: Locator;
+    private homeLink: Locator;
+    private contactLink: Locator;
+    private aboutUsLink: Locator;
+    private cartLink: Locator;
+    private logInLink: Locator;
+    private signUpLink: Locator;
+    private closeButton: Locator;
+    private addToCartButton: Locator;
+ 
+    constructor(protected page: Page) {
+        super(page);
+        this.phonesCategory = this.page.getByRole('link', { name: 'Phones' });
+        this.laptopsCategory = this.page.getByRole('link', { name: 'Laptops' });
+        this.monitorsCategory = this.page.getByRole('link', { name: 'Monitors' });
+        this.homeLink = this.page.getByRole('link', { name: 'Home (current)' });
+        this.messageTextField = this.page.locator('[id="message-text"]');
+        this.contactEmailTextField = this.page.locator('[id="recipient-email"]');
+        this.contactNameTextField = this.page.locator('[id="recipient-name"]');
+        this.contactLink = this.page.getByRole('link', { name: 'Contact' });
+        this.aboutUsLink = this.page.getByRole('link', { name: 'About us' });
+        this.cartLink = this.page.getByRole('link', { name: 'Cart', exact: true });
+        this.logInLink = this.page.getByRole('link', { name: 'Log in' });
+        this.signUpLink = this.page.getByRole('link', { name: 'Sign up' });
+        this.closeButton = this.page.getByRole('button', { name: 'Close' }).nth(1);
+        this.addToCartButton = this.page.locator('a.btn.btn-success.btn-lg');
+    }
+    
     private productsByCategory = {
         'Phones': Object.values(PhonesList),
         'Laptops': Object.values(LaptopsList),
         'Monitors': Object.values(MonitorsList)
     };
+
 
     public async selectItem(itemName: string) {
         await this.clickElement(this.page.getByText(itemName)); 
@@ -76,10 +96,10 @@ export class HomePage extends BasePage {
     }
     
     public async Cart() {
-        await this.page.goto(ApplicationURL.CART_URL);
+        await this.clickElement(this.cartLink);
     }
     public async Login() {
-        await this.clickElement(this.loginLink);
+        await this.clickElement(this.logInLink);
     }
     
     public async SignUp() {
@@ -89,4 +109,20 @@ export class HomePage extends BasePage {
     public async closeModal() {
         await this.clickElement(this.closeButton);
     }
+
+    public async fillInformation(details:{contactEmail: string, contactName: string, message: string}) {
+        await this.fillText(this.contactEmailTextField, details.contactEmail);
+        await this.fillText(this.contactNameTextField, details.contactName);
+        await this.fillText(this.messageTextField, details.message);
+    }
+
+    public async sendMessage() {
+        const sendMessageButton = this.page.getByRole('button', { name: 'Send message' });
+        await sendMessageButton.click();
+    }
+
+    public async validateAlert() {
+
+    }
+
 }

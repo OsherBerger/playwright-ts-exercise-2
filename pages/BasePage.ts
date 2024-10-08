@@ -9,7 +9,6 @@ export abstract class BasePage {
         })
     }
 
-
     public async validateTitle(title: string){
         await this.validateElementText(this.page.locator('[class="modal-title"]').filter({ hasText: title }), title);
     }
