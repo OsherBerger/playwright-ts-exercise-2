@@ -3,14 +3,13 @@ import { HomePage } from '../../pages/HomePage';
 import ApplicationURL from '../../helpers/ApplicationURL';
 import { ModalTitles } from '../../helpers/ModalTitles';
 
-test('Test the navigation bar', async ({ page }) => {
+test('Testing the navigation bar', async ({ page }) => {
 
     const homePage = new HomePage(page);
     
     await page.goto(ApplicationURL.BASE_URL);
     await homePage.validatePageUrl(ApplicationURL.BASE_URL);
 
-    //Checking Links in upper menu
     await homePage.navigateToHome();
     await homePage.validatePageUrl(ApplicationURL.HOME_URL);
     

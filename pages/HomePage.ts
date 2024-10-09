@@ -131,8 +131,10 @@ export class HomePage extends BasePage {
     }
 
     public async chooseItem(itemName: string) {
-        await this.clickElement(this.page.getByText(itemName)); 
+        const item = this.page.locator(`.card-title >> text=${itemName}`);
+        await this.clickElement(item); 
     }
+    
 
     public async AddAndAlert(AddAlert: string) {        
         this.page.once("dialog", async (dialog) => {

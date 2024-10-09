@@ -6,7 +6,7 @@ import ApplicationURL from '../../helpers/ApplicationURL';
 import { ModalTitles } from '../../helpers/ModalTitles';
 
 
-test('Test the Demoblaze site', async ({ page }) => {
+test('Testing the order functionality', async ({ page }) => {
 
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
@@ -23,8 +23,8 @@ test('Test the Demoblaze site', async ({ page }) => {
 
     await homePage.navigateToHome();
     await homePage.clickCategory('Laptops');
-    await homePage.chooseItem(LaptopsList.MAC_AIR);
-    selectedProducts.push(LaptopsList.MAC_AIR); // Store product name
+    await homePage.chooseItem(LaptopsList.MAC_PRO);
+    selectedProducts.push(LaptopsList.MAC_PRO); // Store product name
     await homePage.AddAndAlert('Product added');
 
     await homePage.navigateToHome();
