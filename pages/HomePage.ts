@@ -47,18 +47,21 @@ export class HomePage extends BasePage {
         await this.clickCategory(category);
         await this.page.waitForTimeout(500)
         await this.page.waitForSelector('h4.card-title a');
+
         const expectedProducts = await this.productsByCategory[category];
 
-        const productNames = (await this.page.locator('h4.card-title a').allTextContents());
+        const productNames = (await this.page.locator('h4.card-title a')
+            .allTextContents())
+            .map(productName => productName.trim());
                 
         console.log(`Validating category: ${category}`);
         console.log("Found product names:", productNames); 
         
-        for (const expectedProduct of expectedProducts) {
+        for (const expectedProduct of expectedProducts.map(product => product.trim())) {
             if (productNames.includes(expectedProduct)) {
-                console.log(`Product "${expectedProduct}" found in category "${category}".`);
+                console.log('\x1b[36m%s\x1b[0m', `Product "${expectedProduct}" found in category "${category}".`);
             } else {
-                console.log(`Product "${expectedProduct}" NOT found in category "${category}".`);
+                console.log('\x1b[31m\x1b[1m%s\x1b[0m', `Product "${expectedProduct}" NOT found in category "${category}".`);
             }
         }
     }
