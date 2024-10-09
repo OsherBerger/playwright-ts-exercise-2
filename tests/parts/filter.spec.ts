@@ -6,11 +6,15 @@ test('Testing the filtering feature', async ({ page }) => {
 
     const homePage = new HomePage(page);
 
-    await page.goto(ApplicationURL.BASE_URL);
-    await homePage.validatePageUrl(ApplicationURL.BASE_URL);
+    await test.step('Open the homepage and validate URL', async () => {
+        await page.goto(ApplicationURL.BASE_URL);
+        await homePage.validatePageUrl(ApplicationURL.BASE_URL);
+    });
 
-    await homePage.validateCategory("Phones");
-    await homePage.validateCategory("Laptops");
-    await homePage.validateCategory("Monitors");
+    await test.step('Validate product categories', async () => {
+        await homePage.validateCategory("Phones");
+        await homePage.validateCategory("Laptops");
+        await homePage.validateCategory("Monitors");
+    });
 
 });
