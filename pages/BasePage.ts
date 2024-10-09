@@ -4,9 +4,7 @@ export abstract class BasePage {
     constructor(protected page: Page) {}
 
     public async validatePageUrl(url: string) {
-        await test.step(`Validating that a correct value of URL is ${url}`, async () => {
             await expect(this.page).toHaveURL(url)
-        })
     }
 
     public async validateTitle(title: string){
@@ -14,21 +12,15 @@ export abstract class BasePage {
     }
 
     protected async validateElementText(element: Locator, expectedText: string) {
-        await test.step(`Validating that a correct element text is ${expectedText}`, async () => {
             await expect(element).toContainText(expectedText);
-        });
     }
 
     protected async clickElement(element: Locator){
-        await test.step(`Clicking the '${element}' element`, async() => {
             await element.click();
-        })
     }   
 
     protected async fillText(element: Locator, textToFill: string){
-        await test.step(`Filling the '${textToFill}' into the element`, async() => {
             await element.fill(textToFill);
-        })
     }
 
 }

@@ -16,7 +16,7 @@ test('Test the Demoblaze site', async ({ page }) => {
     await homePage.validatePageUrl(ApplicationURL.BASE_URL);
 
 
-    // Validate category filters and ensure only correct products are shown
+    // // Validate category filters and ensure only correct products are shown
     await homePage.validateCategory("Phones");
     await homePage.navigateToHome();//added as timeout because of internet speed
     await homePage.validateCategory("Laptops");
@@ -60,15 +60,15 @@ test('Test the Demoblaze site', async ({ page }) => {
     
 
     // Make order
-    // await homePage.navigateToHome();
-    // await homePage.clickCategory('Phones');
-    // await homePage.chooseItem(PhonesList.IPHONE);
-    // await homePage.AddAndAlert('Product added');
+    await homePage.navigateToHome();
+    await homePage.clickCategory('Phones');
+    await homePage.chooseItem(PhonesList.IPHONE);
+    await homePage.AddAndAlert('Product added');
 
-    // await homePage.navigateToHome();
-    // await homePage.clickCategory('Laptops');
-    // await homePage.chooseItem(LaptopsList.DELL_2017);
-    // await homePage.AddAndAlert('Product added');
+    await homePage.navigateToHome();
+    await homePage.clickCategory('Laptops');
+    await homePage.chooseItem(LaptopsList.MAC_PRO);
+    await homePage.AddAndAlert('Product added');
 
     await homePage.navigateToHome();
     await homePage.clickCategory('Monitors');

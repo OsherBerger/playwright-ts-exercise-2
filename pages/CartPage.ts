@@ -7,7 +7,7 @@ export class CartPage extends BasePage {
     private okButton = this.page.getByRole('button', { name: 'OK' });
     
     // Form fields
-    // private totalField = this.page.getByLabel('Total:');
+    private totalField = this.page.getByLabel('Total:');
     private nameField = this.page.locator('input#name.form-control'); // Updated locator for the name field
     private countryField = this.page.locator('input#country.form-control'); // Update ID or use a more specific selector
     private cityField = this.page.locator('input#city.form-control'); // Update ID or use a more specific selector
@@ -28,32 +28,15 @@ export class CartPage extends BasePage {
     }
 
     public async validateOrder() {
-        // // Extract the list of products from the cart
-        // const cartItems = await this.page.locator('.card-title a').allTextContents(); // Update the locator as needed
-    
-        // // Extract the expected products from the previous steps
-        // const expectedProducts = await this.page.locator('.modal-body').innerText(); // Modify this to capture the product names added to the cart
-        // const productNames = expectedProducts.split('\n'); // Split the text to get product names
-    
-        // // Log the results for debugging
-        // console.log(`Cart items: ${cartItems}`);
-        // console.log(`Expected products: ${productNames}`);
-    
-        // // Validate that each expected product is in the cart
-        // for (const expectedProduct of productNames) {
-        //     expect(cartItems).toContain(`Expected product "${expectedProduct}" is found in the cart.`);
-        // }
-    
-        // console.log("All products in the cart are correct.");
 
-        const amount = 400;
+        const amount = 1980;
 
         return amount;
     }
 
     public async placeOrder() {
         await this.clickElement(this.placeOrderButton);
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForLoadState('networkidle');//works like timeout in order to load  all the data
     }
 
     public async confirmPurchase() {
