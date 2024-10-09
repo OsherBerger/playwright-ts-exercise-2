@@ -6,13 +6,12 @@ export class CartPage extends BasePage {
     private purchaseButton = this.page.getByRole('button', { name: 'Purchase' });
     private okButton = this.page.getByRole('button', { name: 'OK' });
     
-    // Form fields
-    private nameField = this.page.locator('input#name.form-control'); // Updated locator for the name field
-    private countryField = this.page.locator('input#country.form-control'); // Update ID or use a more specific selector
-    private cityField = this.page.locator('input#city.form-control'); // Update ID or use a more specific selector
-    private creditCardField = this.page.locator('input#card.form-control'); // Update ID or use a more specific selector
-    private monthField = this.page.locator('input#month.form-control'); // Update ID or use a more specific selector
-    private yearField = this.page.locator('input#year.form-control'); // Update ID or use a more specific selector
+    private nameField = this.page.locator('input#name.form-control');
+    private countryField = this.page.locator('input#country.form-control'); 
+    private cityField = this.page.locator('input#city.form-control'); 
+    private creditCardField = this.page.locator('input#card.form-control'); 
+    private monthField = this.page.locator('input#month.form-control'); 
+    private yearField = this.page.locator('input#year.form-control');
 
 
     public async fillOrderForm(details: {name: string,  country: string, city: string, creditCard: string, month: string, year: string }) {
@@ -27,54 +26,31 @@ export class CartPage extends BasePage {
     }
 
     public async validateOrderPrices() {
-        // Wait for the element to be visible
         const totalLocator = this.page.locator('#totalp');
         await totalLocator.waitFor({ state: 'visible' });
-    
-        // Extract the total text
-        const totalText = await totalLocator.innerText(); 
-        console.log(`Extracted total text: "${totalText}"`); // Log for debugging
-        
-        // Remove any non-numeric characters (like "$", commas, or spaces) and parse it to a number
-        const expectedTotal = parseFloat(totalText.replace(/[^\d.-]/g, '')); // Remove anything that's not a digit, a period, or a minus sign
-    
-        console.log(`Expected total amount: ${expectedTotal}`); // Log the expected total
-    
-        // Extract the product prices from the cart
+        const totalText = await totalLocator.innerText();         
+        const expectedTotal = parseFloat(totalText.replace(/[^\d.-]/g, '')); 
+        console.log(`Expected total amount: ${expectedTotal}`); 
+       
         const productPriceElements = await this.page.locator('#tbodyid tr td:nth-child(3)').allTextContents();
-        
-        console.log(`Extracted product prices: ${productPriceElements}`); // Log extracted product prices
-        
-        // Parse the prices into numbers
-        const productPrices = productPriceElements.map(price => parseFloat(price.trim().replace(/[^\d.-]/g, '')));
-    
-        // Calculate the sum of product prices
+        console.log(`Extracted product prices: ${productPriceElements}`);
+       
+        const productPrices = productPriceElements.map(price => parseFloat(price.trim().replace(/[^\d.-]/g, '')));    
         const calculatedTotal = productPrices.reduce((sum, price) => sum + price, 0);
-    
-        console.log(`Calculated total: ${calculatedTotal}`); // Log the calculated total
-        
-        // Compare the calculated total with the expected total
+        console.log(`Calculated total: ${calculatedTotal}`); 
         expect(calculatedTotal).toBe(expectedTotal);
     
         return calculatedTotal;
     }
     
-    // Method to validate product names in the cart
     public async validateCartItems(expectedProducts: string[]) {
-        // Get the names of the products from the cart table (second column)
         const cartItems = await this.page.locator('#tbodyid tr td:nth-child(2)').allTextContents();
-        
-        // Log the extracted product names for debugging
         console.log(`Extracted product names from the cart: ${cartItems}`);
-
         expectedProducts.forEach(product => {
-            expect(cartItems).toContain(product); // Validate that each selected product is in the cart
+            expect(cartItems).toContain(product); 
         });
-
         console.log("All selected products are correctly displayed in the cart.");
     }
-
-    
 
     public async placeOrder() {
         await this.clickElement(this.placeOrderButton);
