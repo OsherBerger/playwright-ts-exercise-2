@@ -11,6 +11,8 @@ test('Test the Demoblaze site', async ({ page }) => {
 
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
+    const selectedProducts: string[] = []; 
+
     
     await page.goto(ApplicationURL.BASE_URL);
     await homePage.validatePageUrl(ApplicationURL.BASE_URL);
@@ -63,21 +65,25 @@ test('Test the Demoblaze site', async ({ page }) => {
     await homePage.navigateToHome();
     await homePage.clickCategory('Phones');
     await homePage.chooseItem(PhonesList.IPHONE);
+    selectedProducts.push(PhonesList.IPHONE); 
     await homePage.AddAndAlert('Product added');
 
     await homePage.navigateToHome();
     await homePage.clickCategory('Laptops');
     await homePage.chooseItem(LaptopsList.DELL_2017);
+    selectedProducts.push(LaptopsList.DELL_2017); // Store product name
     await homePage.AddAndAlert('Product added');
 
     await homePage.navigateToHome();
     await homePage.clickCategory('Monitors');
     await homePage.chooseItem(MonitorsList.APPLE);
+    selectedProducts.push(MonitorsList.APPLE); // Store product name
     await homePage.AddAndAlert('Product added');
 
     await homePage.Cart(); 
     await homePage.validatePageUrl(ApplicationURL.CART_URL);
-    const amount = await cartPage.validateOrder();
+    const amount = await cartPage.validateOrderPrices();
+    await cartPage.validateCartItems(selectedProducts);
     await cartPage.placeOrder();
     await homePage.validateTitle(ModalTitles.PLACE_ORDER_MODAL);
     const orderDetails = await cartPage.fillOrderForm({
@@ -90,5 +96,5 @@ test('Test the Demoblaze site', async ({ page }) => {
     });
     await cartPage.confirmPurchase();
     await cartPage.validateOrderDetails(orderDetails, amount);
-    await cartPage.ValidatePurchase();
+    await cartPage.endPurchase();
 });

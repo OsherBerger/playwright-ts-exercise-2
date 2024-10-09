@@ -26,7 +26,7 @@ export class CartPage extends BasePage {
         return details;
     }
 
-    public async validateOrder() {
+    public async validateOrderPrices() {
         // Wait for the element to be visible
         const totalLocator = this.page.locator('#totalp');
         await totalLocator.waitFor({ state: 'visible' });
@@ -58,6 +58,23 @@ export class CartPage extends BasePage {
     
         return calculatedTotal;
     }
+    
+    // Method to validate product names in the cart
+    public async validateCartItems(expectedProducts: string[]) {
+        // Get the names of the products from the cart table (second column)
+        const cartItems = await this.page.locator('#tbodyid tr td:nth-child(2)').allTextContents();
+        
+        // Log the extracted product names for debugging
+        console.log(`Extracted product names from the cart: ${cartItems}`);
+
+        expectedProducts.forEach(product => {
+            expect(cartItems).toContain(product); // Validate that each selected product is in the cart
+        });
+
+        console.log("All selected products are correctly displayed in the cart.");
+    }
+
+    
 
     public async placeOrder() {
         await this.clickElement(this.placeOrderButton);
@@ -68,7 +85,7 @@ export class CartPage extends BasePage {
         await this.clickElement(this.purchaseButton);
     }
 
-    public async ValidatePurchase() {
+    public async endPurchase() {
         await this.clickElement(this.okButton);
     }
 
