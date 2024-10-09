@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
-import { HomePage } from '../../pages/HomePage';
-import ApplicationURL from '../../helpers/ApplicationURL';
-import { ModalTitles } from '../../helpers/ModalTitles';
+import { HomePage } from '../pages/HomePage';
+import ApplicationURL from '../helpers/ApplicationURL';
+import { ModalTitles } from '../helpers/ModalTitles';
 
 test('Testing the navigation bar', async ({ page }) => {
 

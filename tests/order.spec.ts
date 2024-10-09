@@ -1,9 +1,9 @@
 import { test } from '@playwright/test';
-import { HomePage } from '../../pages/HomePage';
-import { CartPage } from '../../pages/CartPage';
-import { PhonesList, LaptopsList, MonitorsList } from '../../helpers/InventoryList';
-import ApplicationURL from '../../helpers/ApplicationURL';
-import { ModalTitles } from '../../helpers/ModalTitles';
+import { HomePage } from '../pages/HomePage';
+import { CartPage } from '../pages/CartPage';
+import { PhonesList, LaptopsList, MonitorsList } from '../helpers/InventoryList';
+import ApplicationURL from '../helpers/ApplicationURL';
+import { ModalTitles } from '../helpers/ModalTitles';
 
 test('Testing the order functionality', async ({ page }) => {
 

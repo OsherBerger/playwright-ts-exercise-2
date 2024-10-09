@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
-import { HomePage } from '../../pages/HomePage';
-import ApplicationURL from '../../helpers/ApplicationURL';
+import { HomePage } from '../pages/HomePage';
+import ApplicationURL from '../helpers/ApplicationURL';
 
 test('Testing the filtering feature', async ({ page }) => {
 
