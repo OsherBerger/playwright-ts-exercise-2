@@ -10,9 +10,7 @@ test('Testing the filtering feature', async ({ page }) => {
     await homePage.validatePageUrl(ApplicationURL.BASE_URL);
 
     await homePage.validateCategory("Phones");
-    await homePage.navigateToHome();//added as timeout because of internet speed
     await homePage.validateCategory("Laptops");
-    await homePage.navigateToHome();//added as timeout because of internet speed
     await homePage.validateCategory("Monitors");
 
 });

@@ -19,9 +19,7 @@ test('Test the Demoblaze site', async ({ page }) => {
 
     // Validate category filters and ensure only correct products are shown
     await homePage.validateCategory("Phones");
-    await homePage.navigateToHome();//added as timeout because of internet speed
     await homePage.validateCategory("Laptops");
-    await homePage.navigateToHome();//added as timeout because of internet speed
     await homePage.validateCategory("Monitors");
 
     //Checking Links in upper menu

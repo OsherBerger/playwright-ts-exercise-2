@@ -45,9 +45,10 @@ export class HomePage extends BasePage {
 
     public async validateCategory(category: "Phones" | "Laptops" | "Monitors") {
         await this.clickCategory(category);
+        await this.page.waitForTimeout(500)
+        await this.page.waitForSelector('h4.card-title a');
         const expectedProducts = await this.productsByCategory[category];
 
-        await this.page.waitForSelector('h4.card-title a');
         const productNames = (await this.page.locator('h4.card-title a').allTextContents());
                 
         console.log(`Validating category: ${category}`);
