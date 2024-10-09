@@ -10,7 +10,7 @@ export class PhonesList{
 
 export class LaptopsList{
     public static readonly SONY_5 = 'Sony vaio i5';
-    public static readonly SONY_7 = 'Sony vaio i7';//this is correct according he html content(although the GUI shows differently)
+    public static readonly SONY_7 = 'Sony vaio i7';
     public static readonly MAC_AIR = 'MacBook air';
     public static readonly MAC_PRO = 'MacBook Pro';
     public static readonly DELL_7 = 'Dell i7 8gb';

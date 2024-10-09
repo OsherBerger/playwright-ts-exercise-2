@@ -16,6 +16,7 @@ test('Testing the navigation bar', async ({ page }) => {
         await homePage.navigateToHome();
         await homePage.validatePageUrl(ApplicationURL.HOME_URL);
         
+        
         await homePage.ContactForm();
         await homePage.validateTitle(ModalTitles.CONTACT_MODAL);
         await homePage.closeModal();
