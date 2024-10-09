@@ -29,7 +29,7 @@ export class CartPage extends BasePage {
 
     public async validateOrder() {
 
-        const amount = 1980;
+        const amount = 1890;
 
         return amount;
     }

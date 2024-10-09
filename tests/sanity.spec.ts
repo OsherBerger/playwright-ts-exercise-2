@@ -67,7 +67,7 @@ test('Test the Demoblaze site', async ({ page }) => {
 
     await homePage.navigateToHome();
     await homePage.clickCategory('Laptops');
-    await homePage.chooseItem(LaptopsList.MAC_PRO);
+    await homePage.chooseItem(LaptopsList.DELL_2017);
     await homePage.AddAndAlert('Product added');
 
     await homePage.navigateToHome();
