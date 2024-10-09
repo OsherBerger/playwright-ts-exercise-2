@@ -7,7 +7,6 @@ export class CartPage extends BasePage {
     private okButton = this.page.getByRole('button', { name: 'OK' });
     
     // Form fields
-    private totalField = this.page.getByLabel('Total:');
     private nameField = this.page.locator('input#name.form-control'); // Updated locator for the name field
     private countryField = this.page.locator('input#country.form-control'); // Update ID or use a more specific selector
     private cityField = this.page.locator('input#city.form-control'); // Update ID or use a more specific selector
@@ -28,10 +27,36 @@ export class CartPage extends BasePage {
     }
 
     public async validateOrder() {
-
-        const amount = 1890;
-
-        return amount;
+        // Wait for the element to be visible
+        const totalLocator = this.page.locator('#totalp');
+        await totalLocator.waitFor({ state: 'visible' });
+    
+        // Extract the total text
+        const totalText = await totalLocator.innerText(); 
+        console.log(`Extracted total text: "${totalText}"`); // Log for debugging
+        
+        // Remove any non-numeric characters (like "$", commas, or spaces) and parse it to a number
+        const expectedTotal = parseFloat(totalText.replace(/[^\d.-]/g, '')); // Remove anything that's not a digit, a period, or a minus sign
+    
+        console.log(`Expected total amount: ${expectedTotal}`); // Log the expected total
+    
+        // Extract the product prices from the cart
+        const productPriceElements = await this.page.locator('#tbodyid tr td:nth-child(3)').allTextContents();
+        
+        console.log(`Extracted product prices: ${productPriceElements}`); // Log extracted product prices
+        
+        // Parse the prices into numbers
+        const productPrices = productPriceElements.map(price => parseFloat(price.trim().replace(/[^\d.-]/g, '')));
+    
+        // Calculate the sum of product prices
+        const calculatedTotal = productPrices.reduce((sum, price) => sum + price, 0);
+    
+        console.log(`Calculated total: ${calculatedTotal}`); // Log the calculated total
+        
+        // Compare the calculated total with the expected total
+        expect(calculatedTotal).toBe(expectedTotal);
+    
+        return calculatedTotal;
     }
 
     public async placeOrder() {
@@ -76,6 +101,5 @@ export class CartPage extends BasePage {
         console.log(`Name: ${extractedName}, Expected: ${expectedDetails.name}`);
         console.log(`Card Number: ${extractedCardNumber}, Expected: ${expectedDetails.creditCard}`);
         console.log(`Amount: ${extractedAmountNumber}, Expected: ${amount}`);
-
     }
 }
