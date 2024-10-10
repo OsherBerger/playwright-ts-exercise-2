@@ -3,11 +3,13 @@ import { HomePage } from '../pages/HomePage';
 import { CartPage } from '../pages/CartPage';
 import { PhonesList, LaptopsList, MonitorsList } from '../helpers/constants/InventoryList';
 import { ApplicationURL, ModalTitles, Alert, Category } from '../helpers';
+import { ModalComponent } from '../components/Modals';
 
 test('Testing the order functionality', async ({ page }) => {
 
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
+    const modal = new ModalComponent(page)
     const selectedProducts: string[] = []; 
 
     await test.step('Open the homepage and validate URL', async () => {
@@ -45,7 +47,7 @@ test('Testing the order functionality', async ({ page }) => {
         const amount = await cartPage.validateOrderPrices();
         await cartPage.validateCartItems(selectedProducts);
         await cartPage.placeOrder();
-        await homePage.validateTitle(ModalTitles.PLACE_ORDER_MODAL);
+        await modal.validateModalTitle(ModalTitles.PLACE_ORDER_MODAL);
 
         const orderDetails = await cartPage.fillOrderForm({
             name: 'Osher Berger',

@@ -8,10 +8,10 @@ export abstract class BasePage {
             console.log(`This ${url} page URL  is correct`)
     }
 
-    public async validateTitle(title: string){
-        await this.validateElementText(this.page.locator('[class="modal-title"]').filter({ hasText: title }), title);
-        console.log(`This ${title} modal title  is correct`)
-    }
+//     public async validateTitle(title: string){
+//         await this.validateElementText(this.page.locator('[class="modal-title"]').filter({ hasText: title }), title);
+//         console.log(`This ${title} modal title  is correct`)
+//     }
 
     protected async validateElementText(element: Locator, expectedText: string) {
             await expect(element).toContainText(expectedText);

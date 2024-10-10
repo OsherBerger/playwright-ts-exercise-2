@@ -1,8 +1,9 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PhonesList, LaptopsList, MonitorsList } from "../helpers/constants/InventoryList";
-import { BasePage } from "./BasePage";
+import { BasePage } from "./Base/BasePage";
 import { Category } from "../helpers/enums/Category";
-
+import { ModalComponent } from "../components/Modals";
+import { FormComponent } from "../components/Forms";
 
 export class HomePage extends BasePage {
 
@@ -18,11 +19,14 @@ export class HomePage extends BasePage {
     private cartLink: Locator;
     private logInLink: Locator;
     private signUpLink: Locator;
-    private closeButton: Locator;
     private addToCartButton: Locator;
+    private form: FormComponent;
+    private modal: ModalComponent;
  
     constructor(protected page: Page) {
         super(page);
+        this.form = new FormComponent(page);
+        this.modal = new ModalComponent(page);
         this.phonesCategory = this.page.getByRole('link', { name: 'Phones' });
         this.laptopsCategory = this.page.getByRole('link', { name: 'Laptops' });
         this.monitorsCategory = this.page.getByRole('link', { name: 'Monitors' });
@@ -35,7 +39,6 @@ export class HomePage extends BasePage {
         this.cartLink = this.page.getByRole('link', { name: 'Cart', exact: true });
         this.logInLink = this.page.getByRole('link', { name: 'Log in' });
         this.signUpLink = this.page.getByRole('link', { name: 'Sign up' });
-        this.closeButton = this.page.getByRole('button', { name: 'Close' }).nth(1);
         this.addToCartButton = this.page.locator('a.btn.btn-success.btn-lg');
     }
     
@@ -105,25 +108,14 @@ export class HomePage extends BasePage {
     public async SignUp() {
         await this.clickElement(this.signUpLink);
     }
-    
-    public async closeModal() {
-        await this.clickElement(this.closeButton);
+
+    public async fillContactForm(details: { contactEmail: string, contactName: string, message: string }) {
+        await this.form.fillFormField(this.contactEmailTextField, details.contactEmail);
+        await this.form.fillFormField(this.contactNameTextField, details.contactName);
+        await this.form.fillFormField(this.messageTextField, details.message);
+        await this.form.validateEmailField(this.contactEmailTextField, details.contactEmail);
     }
 
-    public async fillInformation(details:{contactEmail: string, contactName: string, message: string}) {
-        await this.fillText(this.contactEmailTextField, details.contactEmail);
-        await this.fillText(this.contactNameTextField, details.contactName);
-        await this.fillText(this.messageTextField, details.message);
-        await this.validateEmailInput(details.contactEmail)
-    }
-
-    public async validateEmailInput(contactEmail: string) {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValidEmail = emailPattern.test(contactEmail);
-        expect(isValidEmail).toBe(true);
-        console.log(`Entered email: ${contactEmail}, Is valid: ${isValidEmail}`);
-    }
-    
     public async chooseItem(itemName: string) {
         const item = this.page.locator(`.card-title >> text=${itemName}`);
         await this.clickElement(item); 
