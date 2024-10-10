@@ -1,7 +1,6 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
-import ApplicationURL from '../helpers/ApplicationURL';
-import { Category } from '../helpers/Enums';
+import { ApplicationURL, Category } from '../helpers';
 
 test('Testing the filtering feature', async ({ page }) => {
 

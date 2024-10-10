@@ -1,8 +1,6 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
-import ApplicationURL from '../helpers/ApplicationURL';
-import { ModalTitles } from '../helpers/ModalTitles';
-import { Alert } from '../helpers/Enums';
+import { ApplicationURL, ModalTitles, Alert } from '../helpers';
 
 test('Testing the contact feature', async ({ page }) => {
 

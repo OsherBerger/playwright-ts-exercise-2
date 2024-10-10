@@ -1,10 +1,8 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { CartPage } from '../pages/CartPage';
-import { PhonesList, LaptopsList, MonitorsList } from '../helpers/InventoryList';
-import ApplicationURL from '../helpers/ApplicationURL';
-import { ModalTitles } from '../helpers/ModalTitles';
-import { Alert, Category } from '../helpers/Enums';
+import { PhonesList, LaptopsList, MonitorsList } from '../helpers/constants/InventoryList';
+import { ApplicationURL, ModalTitles, Alert, Category } from '../helpers';
 
 test('Testing the order functionality', async ({ page }) => {
 

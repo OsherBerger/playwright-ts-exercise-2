@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { PhonesList, LaptopsList, MonitorsList } from "../helpers/InventoryList";
+import { PhonesList, LaptopsList, MonitorsList } from "../helpers/constants/InventoryList";
 import { BasePage } from "./BasePage";
-import { Category } from "../helpers/Enums";
+import { Category } from "../helpers/enums/Category";
 
 
 export class HomePage extends BasePage {
@@ -142,7 +142,6 @@ export class HomePage extends BasePage {
         await this.page.waitForTimeout(1000);
         await this.page.waitForSelector(".modal-open", { state: "hidden" });
     }
-    
 
     public async messageAndAlert(MessageAlert: string) {
         const sendMessageButton = this.page.getByLabel("New message").getByText("Send message");
