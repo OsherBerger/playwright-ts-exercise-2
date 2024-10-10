@@ -14,7 +14,7 @@ test('Testing the contact feature', async ({ page }) => {
     });
 
     await test.step('Send a contact message', async () => {
-        await homePage.ContactForm();
+        await homePage.navigateTo('contact');
         await modal.validateModalTitle(ModalTitles.CONTACT_MODAL);
         await homePage.fillContactForm({
             contactEmail: 'osherberger@gmail.com',

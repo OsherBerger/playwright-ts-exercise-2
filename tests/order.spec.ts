@@ -20,21 +20,21 @@ test('Testing the order functionality', async ({ page }) => {
     await test.step('Add products to the cart', async () => {
         
         // Add Phone
-        await homePage.navigateToHome();
+        await homePage.navigateTo('home');
         await homePage.clickCategory(Category.Phones);
         await homePage.chooseItem(PhonesList.IPHONE);
         selectedProducts.push(PhonesList.IPHONE); 
         await homePage.AddAndAlert(Alert.Add);
 
         // Add Laptop
-        await homePage.navigateToHome();
+        await homePage.navigateTo('home');
         await homePage.clickCategory(Category.Laptops);
         await homePage.chooseItem(LaptopsList.MAC_PRO);
         selectedProducts.push(LaptopsList.MAC_PRO); 
         await homePage.AddAndAlert(Alert.Add);
 
         // Add Monitor
-        await homePage.navigateToHome();
+        await homePage.navigateTo('home');
         await homePage.clickCategory(Category.Monitors);
         await homePage.chooseItem(MonitorsList.APPLE);
         selectedProducts.push(MonitorsList.APPLE); 
@@ -42,7 +42,7 @@ test('Testing the order functionality', async ({ page }) => {
     });
 
     await test.step('Validate the Cart and Place Order', async () => {
-        await homePage.Cart(); 
+        await homePage.navigateTo('cart');
         await homePage.validatePageUrl(ApplicationURL.CART_URL);
 
         const amount = await cartPage.validateOrderPrices();

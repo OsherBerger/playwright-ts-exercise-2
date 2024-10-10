@@ -2,7 +2,6 @@ import { expect, Locator, Page } from "@playwright/test";
 import { PhonesList, LaptopsList, MonitorsList } from "../helpers/constants/InventoryList";
 import { BasePage } from "./Base/BasePage";
 import { Category } from "../helpers/enums/Category";
-import { ModalComponent } from "../components/Modals";
 import { FormComponent } from "../components/Forms";
 
 export class HomePage extends BasePage {
@@ -10,35 +9,36 @@ export class HomePage extends BasePage {
     private contactEmailTextField: Locator;
     private contactNameTextField: Locator;
     private messageTextField: Locator;
-    private phonesCategory: Locator;
-    private laptopsCategory: Locator;
-    private monitorsCategory: Locator;
-    private homeLink: Locator;
-    private contactLink: Locator;
-    private aboutUsLink: Locator;
-    private cartLink: Locator;
-    private logInLink: Locator;
-    private signUpLink: Locator;
+    
+    
     private addToCartButton: Locator;
     private form: FormComponent;
-    private modal: ModalComponent;
+
+    private categoryLinks: Record<Category, Locator>;
+    private actionLinks: Record<string, Locator>;
  
     constructor(protected page: Page) {
         super(page);
         this.form = new FormComponent(page);
-        this.modal = new ModalComponent(page);
-        this.phonesCategory = this.page.getByRole('link', { name: 'Phones' });
-        this.laptopsCategory = this.page.getByRole('link', { name: 'Laptops' });
-        this.monitorsCategory = this.page.getByRole('link', { name: 'Monitors' });
-        this.homeLink = this.page.getByRole('link', { name: 'Home (current)' });
+        
         this.messageTextField = this.page.locator('[id="message-text"]');
         this.contactEmailTextField = this.page.locator('[id="recipient-email"]');
         this.contactNameTextField = this.page.locator('[id="recipient-name"]');
-        this.contactLink = this.page.getByRole('link', { name: 'Contact' });
-        this.aboutUsLink = this.page.getByRole('link', { name: 'About us' });
-        this.cartLink = this.page.getByRole('link', { name: 'Cart', exact: true });
-        this.logInLink = this.page.getByRole('link', { name: 'Log in' });
-        this.signUpLink = this.page.getByRole('link', { name: 'Sign up' });
+        
+        this.categoryLinks = {
+            Phones: this.page.getByRole('link', { name: 'Phones' }),
+            Laptops: this.page.getByRole('link', { name: 'Laptops' }),
+            Monitors: this.page.getByRole('link', { name: 'Monitors' })
+        };
+
+        this.actionLinks = {
+            home: this.page.getByRole('link', { name: 'Home (current)' }),
+            contact: this.page.getByRole('link', { name: 'Contact' }),
+            aboutUs: this.page.getByRole('link', { name: 'About us' }),
+            cart: this.page.getByRole('link', { name: 'Cart', exact: true }),
+            logIn: this.page.getByRole('link', { name: 'Log in' }),
+            signUp: this.page.getByRole('link', { name: 'Sign up' }),
+        };
         this.addToCartButton = this.page.locator('a.btn.btn-success.btn-lg');
     }
     
@@ -72,41 +72,11 @@ export class HomePage extends BasePage {
     }
     
     public async clickCategory(category: Category) {
-        switch (category) {
-            case "Phones":
-                await this.clickElement(this.phonesCategory);
-                break;
-            case "Laptops":
-                await this.clickElement(this.laptopsCategory);
-                break;
-            case "Monitors":
-                await this.clickElement(this.monitorsCategory);
-                break;
-        }
+        await this.clickElement(this.categoryLinks[category]);
     }
 
-    public async navigateToHome() {
-        await this.clickElement(this.homeLink);
-    }
-
-    public async ContactForm() {
-        await this.clickElement(this.contactLink);
-    }
-
-    public async AboutUs() {
-        await this.clickElement(this.aboutUsLink);
-    }
-    
-    public async Cart() {
-        await this.clickElement(this.cartLink);
-    }
-
-    public async Login() {
-        await this.clickElement(this.logInLink);
-    }
-    
-    public async SignUp() {
-        await this.clickElement(this.signUpLink);
+    public async navigateTo(link: keyof typeof this.actionLinks) {
+        await this.clickElement(this.actionLinks[link]);
     }
 
     public async fillContactForm(details: { contactEmail: string, contactName: string, message: string }) {

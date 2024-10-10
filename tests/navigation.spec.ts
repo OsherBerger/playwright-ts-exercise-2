@@ -14,25 +14,25 @@ test('Testing the navigation bar', async ({ page }) => {
     });
 
     await test.step('Navigate through the website links', async () => {
-        await homePage.navigateToHome();
+        await homePage.navigateTo('home');
         await homePage.validatePageUrl(ApplicationURL.HOME_URL);
         
-        await homePage.ContactForm();
+        await homePage.navigateTo('contact');
         await modal.validateModalTitle(ModalTitles.CONTACT_MODAL);
         await modal.closeModal();
         
-        await homePage.AboutUs();
+        await homePage.navigateTo('aboutUs');
         await modal.validateModalTitle(ModalTitles.ABOUT_US_MODAL);
         await modal.closeModal();    
 
-        await homePage.Cart();
+        await homePage.navigateTo('cart');
         await homePage.validatePageUrl(ApplicationURL.CART_URL);
 
-        await homePage.Login();
+        await homePage.navigateTo('logIn');
         await modal.validateModalTitle(ModalTitles.LOG_IN_MODAL);
         await modal.closeModal();
 
-        await homePage.SignUp();
+        await homePage.navigateTo('signUp');
         await modal.validateModalTitle(ModalTitles.SIGN_UP_MODAL);
         await modal.closeModal();
     });
