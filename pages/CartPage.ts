@@ -20,8 +20,8 @@ export class CartPage extends BasePage {
             country: faker.location.country(),
             city: faker.location.city(),
             creditCard: faker.finance.creditCardNumber(),
-            month: faker.date.future().getMonth().toString().padStart(2, '0'), // Get future month and pad to 2 digits
-            year: faker.date.future().getFullYear().toString(), // Get future year
+            month: faker.date.future().getMonth().toString().padStart(2, '0'), 
+            year: faker.date.future().getFullYear().toString(), 
         };
     }
 
@@ -65,7 +65,7 @@ export class CartPage extends BasePage {
 
     public async placeOrder() {
         await this.clickElement(this.placeOrderButton);
-        await this.page.waitForLoadState('networkidle');//works like timeout in order to load  all the data
+        await this.page.waitForLoadState('networkidle');
     }
 
     public async confirmPurchase() {
