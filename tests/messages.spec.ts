@@ -2,6 +2,7 @@ import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import ApplicationURL from '../helpers/ApplicationURL';
 import { ModalTitles } from '../helpers/ModalTitles';
+import { Alert } from '../helpers/Enums';
 
 test('Testing the contact feature', async ({ page }) => {
 
@@ -20,7 +21,7 @@ test('Testing the contact feature', async ({ page }) => {
             contactName: 'Osher Berger',
             message: 'Hello World'
         });
-        await homePage.messageAndAlert('Thanks for the message!!');
+        await homePage.messageAndAlert(Alert.Contact);
     });
 
 });

@@ -1,6 +1,7 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import ApplicationURL from '../helpers/ApplicationURL';
+import { Category } from '../helpers/Enums';
 
 test('Testing the filtering feature', async ({ page }) => {
 
@@ -12,9 +13,9 @@ test('Testing the filtering feature', async ({ page }) => {
     });
 
     await test.step('Validate product categories', async () => {
-        await homePage.validateCategory("Phones");
-        await homePage.validateCategory("Laptops");
-        await homePage.validateCategory("Monitors");
+        await homePage.validateCategory(Category.Phones);
+        await homePage.validateCategory(Category.Laptops);
+        await homePage.validateCategory(Category.Monitors);
     });
 
 });

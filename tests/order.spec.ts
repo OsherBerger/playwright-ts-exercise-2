@@ -4,6 +4,7 @@ import { CartPage } from '../pages/CartPage';
 import { PhonesList, LaptopsList, MonitorsList } from '../helpers/InventoryList';
 import ApplicationURL from '../helpers/ApplicationURL';
 import { ModalTitles } from '../helpers/ModalTitles';
+import { Alert, Category } from '../helpers/Enums';
 
 test('Testing the order functionality', async ({ page }) => {
 
@@ -19,24 +20,24 @@ test('Testing the order functionality', async ({ page }) => {
     await test.step('Add products to the cart', async () => {
         // Add Phone
         await homePage.navigateToHome();
-        await homePage.clickCategory('Phones');
+        await homePage.clickCategory(Category.Phones);
         await homePage.chooseItem(PhonesList.IPHONE);
         selectedProducts.push(PhonesList.IPHONE); 
-        await homePage.AddAndAlert('Product added');
+        await homePage.AddAndAlert(Alert.Add);
 
         // Add Laptop
         await homePage.navigateToHome();
-        await homePage.clickCategory('Laptops');
+        await homePage.clickCategory(Category.Laptops);
         await homePage.chooseItem(LaptopsList.MAC_PRO);
         selectedProducts.push(LaptopsList.MAC_PRO); 
-        await homePage.AddAndAlert('Product added');
+        await homePage.AddAndAlert(Alert.Add);
 
         // Add Monitor
         await homePage.navigateToHome();
-        await homePage.clickCategory('Monitors');
+        await homePage.clickCategory(Category.Monitors);
         await homePage.chooseItem(MonitorsList.APPLE);
         selectedProducts.push(MonitorsList.APPLE); 
-        await homePage.AddAndAlert('Product added');
+        await homePage.AddAndAlert(Alert.Add);
     });
 
     await test.step('Validate the Cart and Place Order', async () => {

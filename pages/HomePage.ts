@@ -1,6 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { PhonesList, LaptopsList, MonitorsList } from "../helpers/InventoryList";
 import { BasePage } from "./BasePage";
+import { Category } from "../helpers/Enums";
+
 
 export class HomePage extends BasePage {
 
@@ -43,7 +45,7 @@ export class HomePage extends BasePage {
         'Monitors': Object.values(MonitorsList)
     };
 
-    public async validateCategory(category: "Phones" | "Laptops" | "Monitors") {
+    public async validateCategory(category: Category) {
         await this.clickCategory(category);
         await this.page.waitForTimeout(500)
         await this.page.waitForSelector('h4.card-title a');
@@ -66,7 +68,7 @@ export class HomePage extends BasePage {
         }
     }
     
-    public async clickCategory(category: "Phones" | "Laptops" | "Monitors") {
+    public async clickCategory(category: Category) {
         switch (category) {
             case "Phones":
                 await this.clickElement(this.phonesCategory);
