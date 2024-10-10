@@ -1,4 +1,3 @@
-// components/Forms.ts
 import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "../pages/Base/BasePage";
 
