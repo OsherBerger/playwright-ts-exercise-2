@@ -124,36 +124,33 @@ export class HomePage extends BasePage {
         console.log(`Entered email: ${contactEmail}, Is valid: ${isValidEmail}`);
     }
     
-    public async messageAndAlert(MessageAlert: string) {
-        this.page.once("dialog", async (dialog) => {
-            const actualMessage = dialog.message();
-            console.log("Expected dialog message:", MessageAlert);
-            console.log("Received dialog message:", actualMessage);
-            expect(actualMessage).toBe(MessageAlert);
-            await dialog.accept();
-        });
-        await this.clickElement(this.page.getByLabel("New message").getByText("Send message"));
-        await this.page.waitForSelector(".modal-open", { state: "hidden" });
-    }
-
     public async chooseItem(itemName: string) {
         const item = this.page.locator(`.card-title >> text=${itemName}`);
         await this.clickElement(item); 
     }
     
-
-    public async AddAndAlert(AddAlert: string) {        
+    public async clickAndValidateAlert(clickElement: Locator, expectedAlertMessage: string) {
         this.page.once("dialog", async (dialog) => {
-            const output = dialog.message();
-            console.log("Expected dialog message:", AddAlert);
-            console.log("Received dialog message:", output);
-            expect(output).toBe(AddAlert);
+            const actualMessage = dialog.message();
+            console.log("Expected dialog message:", expectedAlertMessage);
+            console.log("Received dialog message:", actualMessage);
+            expect(actualMessage).toBe(expectedAlertMessage);
             await dialog.accept();
         });
     
-        await this.clickElement(this.addToCartButton);
+        await this.clickElement(clickElement);
         await this.page.waitForTimeout(1000);
         await this.page.waitForSelector(".modal-open", { state: "hidden" });
+    }
+    
+
+    public async messageAndAlert(MessageAlert: string) {
+        const sendMessageButton = this.page.getByLabel("New message").getByText("Send message");
+        await this.clickAndValidateAlert(sendMessageButton, MessageAlert);
+    }
+
+    public async AddAndAlert(AddAlert: string) {
+        await this.clickAndValidateAlert(this.addToCartButton, AddAlert);
     }
     
 }
