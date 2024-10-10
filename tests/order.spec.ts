@@ -18,6 +18,7 @@ test('Testing the order functionality', async ({ page }) => {
     });
 
     await test.step('Add products to the cart', async () => {
+        
         // Add Phone
         await homePage.navigateToHome();
         await homePage.clickCategory(Category.Phones);
@@ -49,14 +50,8 @@ test('Testing the order functionality', async ({ page }) => {
         await cartPage.placeOrder();
         await modal.validateModalTitle(ModalTitles.PLACE_ORDER_MODAL);
 
-        const orderDetails = await cartPage.fillOrderForm({
-            name: 'Osher Berger',
-            country: 'ISRAEL',
-            city: 'TIRAT YEHUDA',
-            creditCard: '1234123412341234',
-            month: '10',
-            year: '2024',
-        });
+        const orderDetails = await cartPage.generateRandomDetails()
+        await cartPage.fillOrderForm(orderDetails);
         
         await cartPage.confirmPurchase();
         await cartPage.validateOrderDetails(orderDetails, amount);

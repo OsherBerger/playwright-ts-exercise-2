@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+import { faker } from '@faker-js/faker';
 import { BasePage } from "./Base/BasePage";
 
 export class CartPage extends BasePage {
@@ -13,6 +14,16 @@ export class CartPage extends BasePage {
     private monthField = this.page.locator('input#month.form-control'); 
     private yearField = this.page.locator('input#year.form-control');
 
+    public generateRandomDetails() {
+        return {
+            name: faker.person.fullName(),
+            country: faker.location.country(),
+            city: faker.location.city(),
+            creditCard: faker.finance.creditCardNumber(),
+            month: faker.date.future().getMonth().toString().padStart(2, '0'), // Get future month and pad to 2 digits
+            year: faker.date.future().getFullYear().toString(), // Get future year
+        };
+    }
 
     public async fillOrderForm(details: {name: string,  country: string, city: string, creditCard: string, month: string, year: string }) {
         await this.fillText(this.nameField, details.name);
