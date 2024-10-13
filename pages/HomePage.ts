@@ -63,6 +63,7 @@ export class HomePage extends BasePage {
         console.log("Found product names:", productNames); 
         
         for (const expectedProduct of expectedProducts.map(product => product.trim())) {
+            expect(productNames).toContain(expectedProduct);
             if (productNames.includes(expectedProduct)) {
                 console.log('\x1b[36m%s\x1b[0m', `Product "${expectedProduct}" found in category "${category}".`);
             } else {
