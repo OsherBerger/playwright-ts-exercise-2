@@ -5,40 +5,42 @@ import { PhonesList, LaptopsList, MonitorsList } from '../helpers/constants/Inve
 import { ApplicationURL, ModalTitles, Alert, Category } from '../helpers';
 import { ModalComponent } from '../components/Modals';
 
-test('Testing the order functionality', async ({ page }) => {
+function getRandomItem(items: string[]): string {
+    return items[Math.floor(Math.random() * items.length)];
+}
+
+const allProducts = {
+    Phones: Object.values(PhonesList),
+    Laptops: Object.values(LaptopsList),
+    Monitors: Object.values(MonitorsList),
+};
+
+test('Testing the order functionality with random items from all categories', async ({ page }) => {
 
     const homePage = new HomePage(page);
     const cartPage = new CartPage(page);
-    const modal = new ModalComponent(page)
+    const modal = new ModalComponent(page);
     const selectedProducts: string[] = []; 
+
+    const randomProducts = [
+        { category: Category.Phones, product: getRandomItem(allProducts.Phones) },
+        { category: Category.Laptops, product: getRandomItem(allProducts.Laptops) },
+        { category: Category.Monitors, product: getRandomItem(allProducts.Monitors) },
+    ];
 
     await test.step('Open the homepage and validate URL', async () => {
         await page.goto(ApplicationURL.BASE_URL);
         await homePage.validatePageUrl(ApplicationURL.BASE_URL);
     });
 
-    await test.step('Add products to the cart', async () => {
-        
-        // Add Phone
-        await homePage.navigateTo('home');
-        await homePage.clickCategory(Category.Phones);
-        await homePage.chooseItem(PhonesList.IPHONE);
-        selectedProducts.push(PhonesList.IPHONE); 
-        await homePage.AddAndAlert(Alert.Add);
-
-        // Add Laptop
-        await homePage.navigateTo('home');
-        await homePage.clickCategory(Category.Laptops);
-        await homePage.chooseItem(LaptopsList.MAC_PRO);
-        selectedProducts.push(LaptopsList.MAC_PRO); 
-        await homePage.AddAndAlert(Alert.Add);
-
-        // Add Monitor
-        await homePage.navigateTo('home');
-        await homePage.clickCategory(Category.Monitors);
-        await homePage.chooseItem(MonitorsList.APPLE);
-        selectedProducts.push(MonitorsList.APPLE); 
-        await homePage.AddAndAlert(Alert.Add);
+    await test.step('Add random products to the cart from all categories', async () => {
+        for (const { category, product } of randomProducts) {
+            await homePage.navigateTo('home');
+            await homePage.clickCategory(category); // Click the category
+            await homePage.chooseItem(product); // Choose the product from the category
+            selectedProducts.push(product); 
+            await homePage.AddAndAlert(Alert.Add); // Validate the alert after adding to cart
+        }
     });
 
     await test.step('Validate the Cart and Place Order', async () => {

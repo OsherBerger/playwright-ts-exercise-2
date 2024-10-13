@@ -51,7 +51,8 @@ export class HomePage extends BasePage {
     public async validateCategory(category: Category) {
         await this.clickCategory(category);
         await this.page.waitForTimeout(500)
-        await this.page.waitForSelector('h4.card-title a');
+        await this.page.waitForSelector('h4.card-title a',{ state: 'visible' });
+
 
         const expectedProducts = await this.productsByCategory[category];
 
@@ -89,6 +90,7 @@ export class HomePage extends BasePage {
 
     public async chooseItem(itemName: string) {
         const item = this.page.locator(`.card-title >> text=${itemName}`);
+        await item.waitFor({ state: 'visible' });
         await this.clickElement(item); 
     }
     
