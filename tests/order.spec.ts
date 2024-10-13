@@ -50,7 +50,7 @@ test('Testing the order functionality', async ({ page }) => {
         await cartPage.placeOrder();
         await modal.validateModalTitle(ModalTitles.PLACE_ORDER_MODAL);
 
-        const orderDetails = await cartPage.generateRandomDetails()
+        const orderDetails = await cartPage.generateRandomDetails();
         await cartPage.fillOrderForm(orderDetails);
         
         await cartPage.confirmPurchase();

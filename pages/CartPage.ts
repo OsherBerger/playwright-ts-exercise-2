@@ -15,15 +15,34 @@ export class CartPage extends BasePage {
     private yearField = this.page.locator('input#year.form-control');
 
     public generateRandomDetails() {
-        return {
+        faker.seed();  
+        const countriesWithCities = {
+            "Israel": ["Jerusalem", "Tel aviv", "Haifa", "Beer Sheba", "Eilat"],
+            "United States": ["New York", "Los Angeles", "Chicago", "Houston", "Miami"],
+            "United Kingdom": ["London", "Manchester", "Liverpool", "Birmingham", "Edinburgh"],
+            "France": ["Paris", "Lyon", "Marseille", "Toulouse", "Nice"],
+            "Germany": ["Berlin", "Munich", "Frankfurt", "Hamburg", "Cologne"],
+            "Japan": ["Tokyo", "Osaka", "Kyoto", "Nagoya", "Sapporo"],
+            "Australia": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"]
+        };
+    
+        const countries = Object.keys(countriesWithCities);
+        const selectedCountry = faker.helpers.arrayElement(countries) as string;  
+        const selectedCity = faker.helpers.arrayElement(countriesWithCities[selectedCountry]) as string;
+    
+        const orderDetails = {
             name: faker.person.fullName(),
-            country: faker.location.country(),
-            city: faker.location.city(),
+            country: selectedCountry,
+            city: selectedCity,
             creditCard: faker.finance.creditCardNumber(),
             month: faker.date.future().getMonth().toString().padStart(2, '0'), 
             year: faker.date.future().getFullYear().toString(), 
         };
+        console.log(orderDetails);
+
+        return orderDetails;
     }
+    
 
     public async fillOrderForm(details: {name: string,  country: string, city: string, creditCard: string, month: string, year: string }) {
         await this.fillText(this.nameField, details.name);
