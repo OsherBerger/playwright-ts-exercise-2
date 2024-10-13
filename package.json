@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "show": "npx playwright show-report",
+    "allure": "npx allure generate ./allure-results --clean  &  npx serve ./allure-report & xdg-open http://localhost:3000"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.47.2",
-    "@types/node": "^22.7.4"
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.7.4",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^3.0.4"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.3"
