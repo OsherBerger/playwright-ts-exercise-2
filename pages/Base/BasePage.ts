@@ -9,11 +9,13 @@ export abstract class BasePage {
     }
 
     protected async validateElementText(element: Locator, expectedText: string) {
-            await expect(element).toContainText(expectedText);
+        await expect(element).toContainText(expectedText);
     }
 
     protected async clickElement(element: Locator){
-            await element.click();
+        // await this.page.waitForLoadState('networkidle');
+        await element.waitFor({ state: 'visible'});
+        await element.click();
     }   
 
     protected async fillText(element: Locator, textToFill: string){
