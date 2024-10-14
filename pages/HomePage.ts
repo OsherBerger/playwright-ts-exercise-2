@@ -91,7 +91,7 @@ export class HomePage extends BasePage {
 
     public async chooseItem(itemName: string) {
         const item = this.page.locator(`.card-title >> text=${itemName}`);
-        await item.waitFor({ state: 'visible' });
+        // await item.waitFor({ state: 'visible' });
         // await this.page.pause();
         await this.clickElement(item); 
     }
