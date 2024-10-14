@@ -1,6 +1,8 @@
 import { expect } from "@playwright/test";
 import { faker } from '@faker-js/faker';
 import { BasePage } from "./Base/BasePage";
+import { CountriesWithCities } from '../helpers';
+
 
 export class CartPage extends BasePage {
     private placeOrderButton = this.page.getByRole('button', { name: 'Place Order' });
@@ -15,20 +17,10 @@ export class CartPage extends BasePage {
     private yearField = this.page.locator('input#year.form-control');
 
     public generateRandomDetails() {
-        faker.seed();  
-        const countriesWithCities = {
-            "Israel": ["Jerusalem", "Tel aviv", "Haifa", "Beer Sheba", "Eilat"],
-            "United States": ["New York", "Los Angeles", "Chicago", "Houston", "Miami"],
-            "United Kingdom": ["London", "Manchester", "Liverpool", "Birmingham", "Edinburgh"],
-            "France": ["Paris", "Lyon", "Marseille", "Toulouse", "Nice"],
-            "Germany": ["Berlin", "Munich", "Frankfurt", "Hamburg", "Cologne"],
-            "Japan": ["Tokyo", "Osaka", "Kyoto", "Nagoya", "Sapporo"],
-            "Australia": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"]
-        };
-    
-        const countries = Object.keys(countriesWithCities);
+        faker.seed();      
+        const countries = Object.keys(CountriesWithCities);
         const selectedCountry = faker.helpers.arrayElement(countries) as string;  
-        const selectedCity = faker.helpers.arrayElement(countriesWithCities[selectedCountry]) as string;
+        const selectedCity = faker.helpers.arrayElement(CountriesWithCities[selectedCountry]) as string;
     
         const orderDetails = {
             name: faker.person.fullName(),
@@ -73,21 +65,11 @@ export class CartPage extends BasePage {
     
         return calculatedTotal;
     }
-    
-    // public async validateCartItems(expectedProducts: string[]) {
-    //     const cartItems = await this.page.locator('#tbodyid tr td:nth-child(2)').allTextContents();
-    //     console.log(`Extracted product names from the cart: ${cartItems}`);
-    //     expectedProducts.forEach(product => {
-    //         expect(cartItems).toContain(product); 
-    //     });
-    //     console.log("All selected products are correctly displayed in the cart.");
-    // }
 
     public async validateCartItems(expectedProducts: string[]) {
         const cartItems = await this.page.locator('#tbodyid tr td:nth-child(2)').allTextContents();
         console.log(`Extracted product names from the cart: ${cartItems}`);
         
-        // Trim the cart items to remove extra spaces/newlines
         const trimmedCartItems = cartItems.map(item => item.trim());
     
         expectedProducts.forEach(product => {
