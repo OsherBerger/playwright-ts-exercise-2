@@ -50,7 +50,8 @@ export class HomePage extends BasePage {
 
     public async validateCategory(category: Category) {
         await this.clickCategory(category);
-        await this.page.waitForTimeout(500)
+        // await this.page.pause();
+        await this.page.waitForTimeout(500);
         await this.page.waitForSelector('h4.card-title a',{ state: 'visible' });
 
 
@@ -91,6 +92,7 @@ export class HomePage extends BasePage {
     public async chooseItem(itemName: string) {
         const item = this.page.locator(`.card-title >> text=${itemName}`);
         await item.waitFor({ state: 'visible' });
+        // await this.page.pause();
         await this.clickElement(item); 
     }
     
@@ -105,6 +107,7 @@ export class HomePage extends BasePage {
     
         await this.clickElement(clickElement);
         await this.page.waitForTimeout(1000);
+        // await this.page.pause();
         await this.page.waitForSelector(".modal-open", { state: "hidden" });
     }
 

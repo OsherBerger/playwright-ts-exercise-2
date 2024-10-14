@@ -36,10 +36,10 @@ test('Testing the order functionality with random items from all categories', as
     await test.step('Add random products to the cart from all categories', async () => {
         for (const { category, product } of randomProducts) {
             await homePage.navigateTo('home');
-            await homePage.clickCategory(category); // Click the category
-            await homePage.chooseItem(product); // Choose the product from the category
+            await homePage.clickCategory(category);
+            await homePage.chooseItem(product); 
             selectedProducts.push(product); 
-            await homePage.AddAndAlert(Alert.Add); // Validate the alert after adding to cart
+            await homePage.AddAndAlert(Alert.Add); 
         }
     });
 

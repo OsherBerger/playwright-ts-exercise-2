@@ -7,34 +7,32 @@ test('Testing the navigation bar', async ({ page }) => {
 
     const homePage = new HomePage(page);
     const modal = new ModalComponent(page);
-    
+
+    const navigationLinks = [
+        { name: 'home', expectedUrl: ApplicationURL.HOME_URL, isModal: false },
+        { name: 'contact', modalTitle: ModalTitles.CONTACT_MODAL, isModal: true },
+        { name: 'aboutUs', modalTitle: ModalTitles.ABOUT_US_MODAL, isModal: true },
+        { name: 'cart', expectedUrl: ApplicationURL.CART_URL, isModal: false },
+        { name: 'logIn', modalTitle: ModalTitles.LOG_IN_MODAL, isModal: true },
+        { name: 'signUp', modalTitle: ModalTitles.SIGN_UP_MODAL, isModal: true }
+    ];
+
     await test.step('Open the homepage and validate URL', async () => {
         await page.goto(ApplicationURL.BASE_URL);
         await homePage.validatePageUrl(ApplicationURL.BASE_URL);
     });
 
-    await test.step('Navigate through the website links', async () => {
-        await homePage.navigateTo('home');
-        await homePage.validatePageUrl(ApplicationURL.HOME_URL);
-        
-        await homePage.navigateTo('contact');
-        await modal.validateModalTitle(ModalTitles.CONTACT_MODAL);
-        await modal.closeModal();
-        
-        await homePage.navigateTo('aboutUs');
-        await modal.validateModalTitle(ModalTitles.ABOUT_US_MODAL);
-        await modal.closeModal();    
+    for (const link of navigationLinks) {
+        await test.step(`Navigate to ${link.name}`, async () => {
+            await homePage.navigateTo(link.name);
 
-        await homePage.navigateTo('cart');
-        await homePage.validatePageUrl(ApplicationURL.CART_URL);
-
-        await homePage.navigateTo('logIn');
-        await modal.validateModalTitle(ModalTitles.LOG_IN_MODAL);
-        await modal.closeModal();
-
-        await homePage.navigateTo('signUp');
-        await modal.validateModalTitle(ModalTitles.SIGN_UP_MODAL);
-        await modal.closeModal();
-    });
-
+            if (link.isModal) {
+                await modal.validateModalTitle(link.modalTitle!);
+                await modal.closeModal();
+            } else {
+                await homePage.validatePageUrl(link.expectedUrl!);
+            }
+        });
+    }
 });
+

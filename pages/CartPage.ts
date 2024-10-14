@@ -58,6 +58,7 @@ export class CartPage extends BasePage {
     public async validateOrderPrices() {
         const totalLocator = this.page.locator('#totalp');
         await totalLocator.waitFor({ state: 'visible' });
+        // await this.page.pause();
         const totalText = await totalLocator.innerText();         
         const expectedTotal = parseFloat(totalText.replace(/[^\d.-]/g, '')); 
         console.log(`Expected total amount: ${expectedTotal}`); 
@@ -84,6 +85,7 @@ export class CartPage extends BasePage {
 
     public async placeOrder() {
         await this.clickElement(this.placeOrderButton);
+        // await this.page.pause();
         await this.page.waitForLoadState('networkidle');
     }
 
