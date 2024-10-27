@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
-import { ApplicationURL, ModalTitles } from '../helpers';
+import { ApplicationURL} from '../helpers';
 import { ModalComponent } from '../components/Modals';
 import { NavigationLinks } from '../helpers';
 

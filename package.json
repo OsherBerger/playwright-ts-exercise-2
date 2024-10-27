@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
+    "test": "rm -rf allure-results/* && npx playwright test",
     "show": "npx playwright show-report",
-    "allure": "npx allure generate ./allure-results --clean  &  npx serve ./allure-report"
+    "allure": "npx allure generate ./allure-results --clean && npx serve ./allure-report"
   },
   "keywords": [],
   "author": "",

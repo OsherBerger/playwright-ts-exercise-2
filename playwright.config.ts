@@ -5,7 +5,8 @@ export default defineConfig({
 
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : 2,
+  // workers: process.env.CI ? 1 : 2,
+  workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['list'],
     ['html'], 
@@ -13,11 +14,13 @@ export default defineConfig({
   ], 
   use: {
 
-    trace: 'on-first-retry',
+    // trace: 'on-first-retry',
+    trace: 'on',
 
     screenshot: 'on',
 
-    video: 'on-first-retry',
+    // video: 'on-first-retry',
+    video: 'on',
 
     headless: process.env.CI ? true : false,
   },
